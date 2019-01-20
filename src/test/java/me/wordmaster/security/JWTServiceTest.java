@@ -17,16 +17,11 @@ public class JWTServiceTest {
     private JWTService service;
 
     @Test
-    public void testCreateToken() {
+    public void testHandleToken() {
         String token = service.createToken("testuser");
         assertNotNull(token);
-    }
 
-    @Test
-    public void testGetUser() {
-        String jwt = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ3b3JkbWFzdGVyIiwic3ViIjoidGVzdHVzZXIiLCJpYXQiOjE1NDc5NjU5MDYsImV4cCI6MTU0Nzk2OTUwNn0.pAGbROz4gj4iSh7g2TXYfmEiFNjXpRxyr8dEvQ20YSlnR5p0elsD0OtMcsRSlc7em74aV16kiuk_FwrJjFPRqQ";
-        Optional<UserToken> user = service.getUserToken(jwt);
-
+        Optional<UserToken> user = service.getUserToken(token);
         assertTrue(user.isPresent());
         assertEquals("testuser", user.get().getUsername());
     }
