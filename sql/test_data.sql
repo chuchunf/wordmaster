@@ -1,0 +1,1 @@
+INSERT INTO appuser(name,username,password,status,role) VALUES ('user','user','pass','ACTIVE','ADMIN');
