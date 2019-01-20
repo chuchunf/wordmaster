@@ -61,6 +61,7 @@ CREATE TABLE appuser (
     username   varchar(50) UNIQUE,
     password   varchar(100) NOT NULL,
     status     varchar(20) NOT NULL,
+    role       varchar(20) NOT NULL,
     created    timestamp,
     lastlogin  timestamp
 );

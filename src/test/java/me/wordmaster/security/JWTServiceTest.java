@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
@@ -20,16 +19,13 @@ public class JWTServiceTest {
     @Test
     public void testCreateToken() {
         String token = service.createToken("testuser");
-
         assertNotNull(token);
     }
 
     @Test
     public void testGetUser() {
-        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ3b3JkbWFzdGVyIiwic3ViIjoidGVzdHVzZXIiLCJpYXQiOjE1NDc5NTY4OTIsImV4cCI6MTU0Nzk2MDQ5Mn0.ASz-FsfhwfBCPt9_ZB1tEOxddiH8l0TfNtWfmWBHQd_xZn0NJuhh4wAGtMQl5m5K-NDT7KHRG-L3ZvW-NuEbjw";
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader("Authorization", jwt);
-        Optional<UserToken> user = service.getUserToken(request);
+        String jwt = "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ3b3JkbWFzdGVyIiwic3ViIjoidGVzdHVzZXIiLCJpYXQiOjE1NDc5NjU5MDYsImV4cCI6MTU0Nzk2OTUwNn0.pAGbROz4gj4iSh7g2TXYfmEiFNjXpRxyr8dEvQ20YSlnR5p0elsD0OtMcsRSlc7em74aV16kiuk_FwrJjFPRqQ";
+        Optional<UserToken> user = service.getUserToken(jwt);
 
         assertTrue(user.isPresent());
         assertEquals("testuser", user.get().getUsername());

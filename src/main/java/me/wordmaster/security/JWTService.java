@@ -6,14 +6,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
 public class JWTService {
-    private static final String AUTH_HEADER = "Authorization";
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
     private static final Logger LOGGER = Logger.getLogger(JWTService.class.getName());
 
@@ -26,8 +24,7 @@ public class JWTService {
     @Value("${jwt.expires_timeout}")
     private int expires;
 
-    public Optional<UserToken> getUserToken(HttpServletRequest request) {
-        String token = getToken(request);
+    public Optional<UserToken> getUserToken(String token) {
         Claims claims = getAllClaimsFromToken(token);
         if ( claims==null ) {
             return Optional.empty();
@@ -47,15 +44,6 @@ public class JWTService {
                 .setExpiration(new Date(new Date().getTime() + expires * 1000))
                 .signWith(SIGNATURE_ALGORITHM, secret)
                 .compact();
-    }
-
-    private String getToken(HttpServletRequest request ) {
-        String authHeader = request.getHeader(AUTH_HEADER);
-        if ( authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
-        }
-
-        return null;
     }
 
     private Claims getAllClaimsFromToken(String token) {

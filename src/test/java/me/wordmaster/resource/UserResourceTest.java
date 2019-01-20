@@ -27,6 +27,6 @@ public class UserResourceTest {
         map.add("password", "pass");
         ResponseEntity<String> entity = restTemplate.postForEntity("/api/user/login", map, String.class);
         assertSame(HttpStatus.OK, entity.getStatusCode());
-        assertSame("user login", entity.getBody());
+        assertEquals("user login", entity.getBody());
     }
 }
