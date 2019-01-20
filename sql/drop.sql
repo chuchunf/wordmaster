@@ -1,0 +1,14 @@
+drop table if exists bookword CASCADE;
+drop table if exists book CASCADE;
+drop table if exists synonym CASCADE;
+drop table if exists antonym CASCADE;
+drop table if exists sample CASCADE;
+drop table if exists sense CASCADE;
+drop table if exists entry CASCADE;
+drop table if exists matrix CASCADE;
+drop table if exists session CASCADE;
+drop table if exists userbadge CASCADE;
+drop table if exists badge CASCADE;
+drop table if exists userword CASCADE;
+drop table if exists appuser CASCADE;
+drop table if exists word CASCADE;
