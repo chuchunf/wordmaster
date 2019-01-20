@@ -21,7 +21,7 @@ public class JWTService {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expires_timeout}")
+    @Value("${jwt.expiry_timeout}")
     private int expires;
 
     public Optional<UserToken> getUserToken(String token) {
