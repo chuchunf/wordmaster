@@ -17,7 +17,7 @@ public class UserMapperTest {
 
     @Test
     public void testLogin() {
-        AppUser user = usermapper.userLogin("user", "pass");
+        AppUser user = usermapper.userLogin("user", "05d49692b755f99c4504b510418efeeeebfd466892540f27acf9a31a326d6504");
         assertNotNull(user);
     }
 }

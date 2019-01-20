@@ -33,8 +33,7 @@ public class UserServiceTest {
 
     @Test
     public void testLogin() {
-        AppUser user = service.login("null", "null");
-        user = service.login("user", "pass");
+        AppUser user = service.login("user", "pass");
         assertNotNull(user);
     }
 
