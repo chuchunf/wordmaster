@@ -1,6 +1,8 @@
 package me.wordmaster.service;
 
+import me.wordmaster.dao.UserMapper;
 import me.wordmaster.model.AppUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -12,11 +14,16 @@ import java.util.logging.Logger;
 public class UserService {
     private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
+    @Autowired
+    private UserMapper userdao;
+
     public AppUser login(String username, String pass) {
         String hashedpass = hash(username+pass);
-        AppUser user = new AppUser();
-        user.setName(username);
-        return user;
+        return userdao.userLogin(username, hashedpass);
+    }
+
+    public AppUser getUserByName(String username) {
+        return userdao.getUser(username);
     }
 
     private String hash(String text) {
