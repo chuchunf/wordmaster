@@ -1,6 +1,7 @@
 package me.wordmaster;
 
 import me.wordmaster.resource.UserResource;
+import me.wordmaster.resource.WordResource;
 import me.wordmaster.security.JWTFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import javax.ws.rs.ApplicationPath;
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         register(UserResource.class);
+        register(WordResource.class);
 
         register(JWTFilter.class);
     }

@@ -1,6 +1,7 @@
 CREATE TABLE word (
     word        varchar(50) CONSTRAINT word_pk PRIMARY KEY,
     status      varchar(10) NOT NULL,
+    seq         integer,
     alike1      varchar(50),
     alike2      varchar(50),
     alike3      varchar(50),

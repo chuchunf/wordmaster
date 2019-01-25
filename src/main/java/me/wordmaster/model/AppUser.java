@@ -6,14 +6,14 @@ import java.sql.Timestamp;
  * appuser table
  */
 public class AppUser {
-    Long id;
-    String name;
-    String username;
-    String password;
-    String status;
-    String role;
-    Timestamp created;
-    Timestamp lastLogin;
+    private Long id;
+    private String name;
+    private String username;
+    private String password;
+    private String status;
+    private String role;
+    private Timestamp created;
+    private Timestamp lastLogin;
 
     public Long getId() {
         return id;

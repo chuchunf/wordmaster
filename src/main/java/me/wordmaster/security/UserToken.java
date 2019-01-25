@@ -3,8 +3,8 @@ package me.wordmaster.security;
 import java.util.Date;
 
 public class UserToken {
-    private String username;
-    private Date issuedAt;
+    private final String username;
+    private final Date issuedAt;
 
     public UserToken(String username, Date issuedAt) {
         this.username = username;

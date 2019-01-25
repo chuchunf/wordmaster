@@ -4,17 +4,19 @@ INSERT INTO badge (level,type,icon) VALUES (1,'1','first icon');
 
 INSERT INTO userbadge (userid, badgeid) VALUES(1, 1);
 
-INSERT INTO word (word, status) values ('a', 'ACTIVE');
-INSERT INTO word (word, status) values ('b', 'ACTIVE');
-INSERT INTO word (word, status) values ('c', 'ACTIVE');
+INSERT INTO word (word, status, seq) values ('a', 'ACTIVE', 1);
+INSERT INTO word (word, status, seq) values ('b', 'ACTIVE', 2);
+INSERT INTO word (word, status, seq) values ('c', 'ACTIVE', 3);
 
 INSERT INTO userword(userid, word, star, attempt, mastery, status, updated) values(1, 'a', 'Y', 4, 2, 'ACTIVE', '20190101');
 
 INSERT INTO entry(word, seqno, category) values ('a', '001', 'a category 1');
 INSERT INTO entry(word, seqno, category) values ('a', '002', 'a category 2');
+INSERT INTO entry(word, seqno, category) values ('b', '001', 'b category 1');
 
 INSERT INTO sense(id, word, seqno, definition) values ('a001', 'a', '001', 'definition of a 001');
 INSERT INTO sense(id, word, seqno, definition) values ('a001-2', 'a', '001', 'deifnition of a 001 also');
 INSERT INTO sense(id, word, seqno, definition) values ('a002-1', 'a', '002', 'deifnition of a 002');
+INSERT INTO sense(id, word, seqno, definition) values ('b001', 'b', '001', 'deifnition of b 001');
 
 
