@@ -3,6 +3,7 @@ package me.wordmaster.security;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Priority;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -22,6 +23,9 @@ public class JWTFilter implements ContainerRequestFilter {
     @Context
     private ResourceInfo resourceInfo;
 
+    @Context
+    private HttpServletRequest request;
+
     @Autowired
     private JWTService jwtservice;
 
@@ -40,6 +44,8 @@ public class JWTFilter implements ContainerRequestFilter {
         if ( !usertoken.isPresent() ) {
             fail(requestContext);
             return;
+        } else {
+            request.getSession().setAttribute("user", usertoken.get().getUsername());
         }
 
         AllowedRoles roles = method.getAnnotation(AllowedRoles.class);

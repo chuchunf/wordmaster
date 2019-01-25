@@ -1,6 +1,6 @@
 package me.wordmaster.resource;
 
-import me.wordmaster.model.AppUser;
+import me.wordmaster.vo.UserVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,9 @@ public class UserResourceIntegratedTest {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("username", "user");
         map.add("password", "pass");
-        ResponseEntity<AppUser> entity = restTemplate.postForEntity("/api/user/login", map, AppUser.class);
+        ResponseEntity<UserVO> entity = restTemplate.postForEntity("/api/user/login", map, UserVO.class);
         assertSame(HttpStatus.OK, entity.getStatusCode());
-        assertEquals("user", entity.getBody().getUsername());
+        assertEquals("user", entity.getBody().getUser().getUsername());
     }
 
     @Test
@@ -37,7 +37,9 @@ public class UserResourceIntegratedTest {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("username", "null");
         map.add("password", "null");
-        ResponseEntity<AppUser> entity = restTemplate.postForEntity("/api/user/login", map, AppUser.class);
+        ResponseEntity<UserVO> entity = restTemplate.postForEntity("/api/user/login", map, UserVO.class);
         assertSame(HttpStatus.FORBIDDEN, entity.getStatusCode());
     }
+
+    // TODO: IT for topuse and last7days
 }

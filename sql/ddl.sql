@@ -101,8 +101,9 @@ CREATE TABLE userword (
    status    varchar(10),
    created   timestamp,
    updated   timestamp,
-
-   FOREIGN KEY (word) REFERENCES word(word)
+   PRIMARY KEY (userid, word),
+   FOREIGN KEY (word) REFERENCES word(word),
+   FOREIGN KEY (userid) REFERENCES appuser (id)
 );
 
 CREATE TABLE book (

@@ -11,6 +11,4 @@ public class WordmasterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WordmasterApplication.class, args);
 	}
-
 }
-
