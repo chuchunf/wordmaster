@@ -58,6 +58,8 @@ public class UserResourceTest {
         map.add("password", "pass");
         ResponseEntity<UserVO> entity = restTemplate.postForEntity("/api/user/login", map, UserVO.class);
         assertSame(HttpStatus.OK, entity.getStatusCode());
+        assertNotNull(entity.getBody());
+        assertNotNull(entity.getBody().getUser());
         assertEquals("user", entity.getBody().getUser().getUsername());
     }
 
@@ -77,7 +79,7 @@ public class UserResourceTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", jwttoken);
 
-        HttpEntity<String> request = new HttpEntity<String>("parameters", headers);
+        HttpEntity<String> request = new HttpEntity<>("parameters", headers);
         ResponseEntity<List> result = restTemplate.exchange("/api/user/topuser", HttpMethod.GET, request, List.class);
         assertNotNull(result);
     }
@@ -89,7 +91,7 @@ public class UserResourceTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", jwttoken);
 
-        HttpEntity<String> request = new HttpEntity<String>("parameters", headers);
+        HttpEntity<String> request = new HttpEntity<>("parameters", headers);
         ResponseEntity<List> result = restTemplate.exchange("/api/user/last7days", HttpMethod.GET, request, List.class);
         assertNotNull(result);
     }
@@ -101,7 +103,7 @@ public class UserResourceTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", jwttoken);
 
-        HttpEntity<String> request = new HttpEntity<String>("parameters", headers);
+        HttpEntity<String> request = new HttpEntity<>("parameters", headers);
         ResponseEntity<List> result = restTemplate.exchange("/api/user/prevwords?day=20190101", HttpMethod.GET, request, List.class);
         assertNotNull(result);
     }
