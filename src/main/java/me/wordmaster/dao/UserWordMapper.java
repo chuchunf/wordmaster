@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface UserWordMapper {
 
-    // TODO: make this query work for both H2 and PostgreSql
     @Select("SELECT cnt FROM ( " +
             "  SELECT updated, COUNT(1) as cnt FROM userword uw " +
             "  INNER JOIN appuser u ON uw.userid = u.id " +
