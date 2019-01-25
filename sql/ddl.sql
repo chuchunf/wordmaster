@@ -99,8 +99,8 @@ CREATE TABLE userword (
    attempt   integer,
    mastery   integer,
    status    varchar(10),
-   created   timestamp,
-   updated   timestamp,
+   created   varchar(8),
+   updated   varchar(8),
    PRIMARY KEY (userid, word),
    FOREIGN KEY (word) REFERENCES word(word),
    FOREIGN KEY (userid) REFERENCES appuser (id)

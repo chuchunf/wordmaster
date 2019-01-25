@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface AllowedRoles {
     Role role() default Role.USER;
 
-    public static enum Role {
+    enum Role {
         USER, ADMIN
     }
 }

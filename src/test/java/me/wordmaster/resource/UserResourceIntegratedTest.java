@@ -68,4 +68,16 @@ public class UserResourceIntegratedTest {
         ResponseEntity<List> result = restTemplate.exchange("/api/user/last7days", HttpMethod.GET, request, List.class);
         assertNotNull(result);
     }
+
+    @Test
+    public void testWordsInPreviousDay() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+
+        HttpEntity<String> request = new HttpEntity<String>("parameters", headers);
+        ResponseEntity<List> result = restTemplate.exchange("/api/user/prevwords?day=20190101", HttpMethod.GET, request, List.class);
+        assertNotNull(result);
+    }
 }

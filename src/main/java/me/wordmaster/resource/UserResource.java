@@ -46,4 +46,13 @@ public class UserResource {
     public Response getTopUser() {
         return Response.ok(service.getTopUser()).build();
     }
+
+    @GET
+    @Path("prevwords")
+    @AllowedRoles
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPrevousDayWords(@Context HttpServletRequest request, @QueryParam("day") String day) {
+        String username = (String) request.getSession().getAttribute("user");
+        return Response.ok(service.listWordsInProgressByDay(username, day)).build();
+    }
 }

@@ -4,6 +4,7 @@ import me.wordmaster.dao.UserMapper;
 import me.wordmaster.dao.UserWordMapper;
 import me.wordmaster.model.AppUser;
 import me.wordmaster.model.TopUser;
+import me.wordmaster.model.Word;
 import me.wordmaster.vo.UserVO;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +45,8 @@ public class UserServiceTest {
         topuser.setCount(1);
         topusers.add(topuser);
         when(userworddao.getTopUser()).thenReturn(topusers);
+
+        when(userworddao.listWordsByDay("user", "20190101", 5)).thenReturn(new ArrayList());
     }
 
     @Test
@@ -62,5 +65,11 @@ public class UserServiceTest {
     public void testTopUsers() {
         List<TopUser> topuser = service.getTopUser();
         assertNotNull(topuser);
+    }
+
+    @Test
+    public void testListWordsInProgressByDay() {
+        List<Word> words = service.listWordsInProgressByDay("user", "20190101");
+        assertNotNull(words);
     }
 }

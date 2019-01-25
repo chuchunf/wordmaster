@@ -6,7 +6,10 @@ import me.wordmaster.dao.UserWordMapper;
 import me.wordmaster.model.AppUser;
 import me.wordmaster.model.Badge;
 import me.wordmaster.model.TopUser;
+import me.wordmaster.model.Word;
 import me.wordmaster.security.JWTService;
+import me.wordmaster.util.DateUtils;
+import me.wordmaster.util.Mastery;
 import me.wordmaster.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,11 +57,16 @@ public class UserService {
     public List<Integer> getLast7DayProgress(String username) {
         LocalDate localdate = LocalDate.now().minusDays(10);
         Date date = Date.valueOf(localdate);
-        return userworddao.getLast7DayProgress(username, date);
+        String datestr = DateUtils.toYYYYMMDD(date);
+        return userworddao.getLast7DayProgress(username, datestr);
     }
 
     public List<TopUser> getTopUser() {
         return userworddao.getTopUser();
+    }
+
+    public List<Word> listWordsInProgressByDay(String username, String day) {
+        return userworddao.listWordsByDay(username, day, Mastery.MASTERED.getLevel());
     }
 
     private String hash(String text) {

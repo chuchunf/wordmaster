@@ -1,5 +1,7 @@
 package me.wordmaster.security;
 
+import me.wordmaster.dao.UserMapper;
+import me.wordmaster.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Priority;
@@ -29,6 +31,9 @@ public class JWTFilter implements ContainerRequestFilter {
     @Autowired
     private JWTService jwtservice;
 
+    @Autowired
+    private UserMapper userdao;
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         Method method = resourceInfo.getResourceMethod();
@@ -50,11 +55,16 @@ public class JWTFilter implements ContainerRequestFilter {
 
         AllowedRoles roles = method.getAnnotation(AllowedRoles.class);
         if ( roles.role() == AllowedRoles.Role.ADMIN ) {
-            checkAdmin(usertoken.get());
+            checkAdmin(usertoken.get(), requestContext);
         }
     }
 
-    private void checkAdmin(UserToken userToken) {
+    private void checkAdmin(UserToken userToken, ContainerRequestContext request) {
+        String username = userToken.getUsername();
+        AppUser user = userdao.getUser(username);
+        if (user == null || !user.getRole().equals(AllowedRoles.Role.ADMIN.name())) {
+            fail(request);
+        }
     }
 
     private void fail(ContainerRequestContext requestContext) {

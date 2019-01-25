@@ -1,6 +1,8 @@
 package me.wordmaster.dao;
 
 import me.wordmaster.model.TopUser;
+import me.wordmaster.model.Word;
+import me.wordmaster.util.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,7 +25,8 @@ public class UserWordMapperTest {
     public void testGetLast7DayProgress() {
         LocalDate localdate = LocalDate.now().minusDays(10);
         Date date = Date.valueOf(localdate);
-        List<Integer> list = mapper.getLast7DayProgress("test", date);
+        String datestr = DateUtils.toYYYYMMDD(date);
+        List<Integer> list = mapper.getLast7DayProgress("test", datestr);
         assertNotNull(list);
     }
 
@@ -33,5 +35,12 @@ public class UserWordMapperTest {
         List<TopUser> topusers = mapper.getTopUser();
         assertNotNull(topusers);
         assertEquals(1, topusers.size());
+    }
+
+    @Test
+    public void testListWordsByDay() {
+        List<Word> words = mapper.listWordsByDay("user", "20190101", 3);
+        assertNotNull(words);
+        assertFalse(words.isEmpty());
     }
 }
