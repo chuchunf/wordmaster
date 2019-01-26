@@ -18,6 +18,8 @@ INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('a001', 'a', '
 INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('a001-2', 'a', '001', 'deifnition of a 001 also', 'link-sym-a2');
 INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('a002-1', 'a', '002', 'deifnition of a 002','link-sym-a21');
 INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('b001', 'b', '001', 'deifnition of b 001', 'link-sym-b1');
+INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('b002', 'b', '001', 'deifnition of b 002', 'link-sym-b2');
+INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('b003', 'b', '001', 'deifnition of b 003', 'link-sym-b3');
 
 INSERT INTO synonym(linkid,synonym) VALUES ('link-sym-a1', 'sym-a1');
 INSERT INTO synonym(linkid,synonym) VALUES ('link-sym-a2', 'sym-a2');
@@ -30,3 +32,4 @@ INSERT INTO matrix(word,relation,word2) VALUES ('a','derived','a-derived2');
 
 INSERT INTO sample(senseid, text) VALUES ('a001', 'sample txt 1 for a 001');
 INSERT INTO sample(senseid, text) VALUES ('a001-2', 'sample txt 1 for a 001 2');
+INSERT INTO sample(senseid, text) VALUES ('a001-2', 'sample txt 1 for a 001 2 2');

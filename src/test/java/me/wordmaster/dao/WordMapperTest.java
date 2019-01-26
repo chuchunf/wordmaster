@@ -65,14 +65,14 @@ public class WordMapperTest {
     public void testGetRandomTest() {
         List<String> list = mapper.getRandomText("a", "%a%");
         assertNotNull(list);
-        assertEquals(2, list.size());
+        assertEquals(3, list.size());
     }
 
     @Test
     public void testRandomDefintion() {
         List<String> list = mapper.getRandomDefinition("a");
         assertNotNull(list);
-        assertEquals(1, list.size());
+        assertEquals(3, list.size());
     }
 
     @Test
