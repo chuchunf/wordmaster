@@ -1,21 +1,23 @@
 package me.wordmaster.resource;
 
+import me.wordmaster.dao.OtherMapper;
 import me.wordmaster.security.JWTService;
 import me.wordmaster.vo.WordVO;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,6 +27,15 @@ public class WordResourceIntegratedTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    // Mock this mapper as H2 doesn't work with its queries
+    @MockBean
+    private OtherMapper otherdao;
+
+    @Before
+    public void setup() {
+        when(otherdao.getLookAlike("a")).thenReturn(Arrays.asList("b", "c", "d"));
+    }
 
     @Test
     public void testGetNext10Wrods() {
@@ -54,5 +65,18 @@ public class WordResourceIntegratedTest {
         assertFalse(vo.getAcronyms().isEmpty());
         assertFalse(vo.getSynonyms().isEmpty());
         assertFalse(vo.getEntries().isEmpty());
+    }
+
+    @Test
+    public void testAskQuestions() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>("[\"a\"]", headers);
+        ResponseEntity<List> result = restTemplate.exchange("/api/word/ask", HttpMethod.POST, request, List.class);
+        assertNotNull(result);
     }
 }
