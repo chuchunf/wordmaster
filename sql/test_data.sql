@@ -27,3 +27,6 @@ INSERT INTO antonym(linkid,antonym) VALUES ('link-sym-a2', 'antoym-a2');
 
 INSERT INTO matrix(word,relation,word2) VALUES ('a','derived','a-derived1');
 INSERT INTO matrix(word,relation,word2) VALUES ('a','derived','a-derived2');
+
+INSERT INTO sample(senseid, text) VALUES ('a001', 'sample txt 1 for a 001');
+INSERT INTO sample(senseid, text) VALUES ('a001-2', 'sample txt 1 for a 001 2');

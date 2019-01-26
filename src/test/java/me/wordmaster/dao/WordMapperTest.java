@@ -60,4 +60,25 @@ public class WordMapperTest {
         assertNotNull(list);
         assertEquals(2, list.size());
     }
+
+    @Test
+    public void testGetRandomTest() {
+        List<String> list = mapper.getRandomText("a", "%a%");
+        assertNotNull(list);
+        assertEquals(2, list.size());
+    }
+
+    @Test
+    public void testRandomDefintion() {
+        List<String> list = mapper.getRandomDefinition("a");
+        assertNotNull(list);
+        assertEquals(3, list.size());
+    }
+
+    @Test
+    public void testGetFirstDefinition() {
+        String str = mapper.getFirstDefinition("a");
+        assertNotNull(str);
+        assertEquals("definition of a 001", str);
+    }
 }

@@ -56,4 +56,28 @@ public interface WordMapper {
             "  SELECT word2 as word FROM MATRIX WHERE word=#{word} " +
             ") v")
     List<String> findDerivedWords(@Param("word") String word);
+
+    @Select("SELECT sp.text FROM sense s " +
+            "INNER JOIN sample sp ON s.id = sp.senseid " +
+            "WHERE s.word = #{word} " +
+            "AND sp.text LIKE #{like} ")
+    List<String> getRandomText(@Param("word") String word, @Param("like") String like);
+
+    @Select("SELECT s.definition FROM sense s " +
+            "WHERE s.word NOT IN ( " +
+            "  SELECT syn.synonym FROM sense s " +
+            "  INNER JOIN synonym syn on s.thesaurus = syn.linkid " +
+            "  WHERE s.word=#{word}" +
+            ") " +
+            "AND s.word = #{word}")
+    List<String> getRandomDefinition(@Param("word") String word);
+
+    @Select("SELECT definition FROM sense " +
+            "WHERE id = ( " +
+            "  SELECT s.id FROM sense s" +
+            "  WHERE s.word = #{word} " +
+            "  ORDER by s.id ASC " +
+            "  LIMIT 1" +
+            ")")
+    String getFirstDefinition(@Param("word") String word);
 }
