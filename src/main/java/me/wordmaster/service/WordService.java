@@ -5,6 +5,7 @@ import me.wordmaster.dao.WordMapper;
 import me.wordmaster.model.Word;
 import me.wordmaster.model.WordEntry;
 import me.wordmaster.model.WordSense;
+import me.wordmaster.vo.AnswerVO;
 import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,9 @@ public class WordService {
         return words.stream()
                 .map(this::createRandomQuestion)
                 .collect(Collectors.toList());
+    }
+
+    public void updateRecord(AnswerVO answer) {
     }
 
     private QuestionVO createRandomQuestion(String word) {
