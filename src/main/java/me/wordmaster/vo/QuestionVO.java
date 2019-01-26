@@ -1,11 +1,11 @@
 package me.wordmaster.vo;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class QuestionVO {
     private String word;
     private String question;
-    private String[] choises;
+    private List<String> choises;
     private int answer;
 
     public String getQuestion() {
@@ -24,11 +24,11 @@ public class QuestionVO {
         this.word = word;
     }
 
-    public String[] getChoises() {
+    public List<String> getChoises() {
         return choises;
     }
 
-    public void setChoises(String[] choises) {
+    public void setChoises(List<String> choises) {
         this.choises = choises;
     }
 
@@ -45,7 +45,7 @@ public class QuestionVO {
         return "Question{" +
                 "word ='" + word + '\'' +
                 ", question='" + question + '\'' +
-                ", choises=" + Arrays.toString(choises) +
+                ", choises=" + choises +
                 ", answer=" + answer +
                 '}';
     }

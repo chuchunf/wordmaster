@@ -15,8 +15,8 @@ public interface OtherMapper {
             " INNER JOIN synonym syn on s.thesaurus = syn.linkid " +
             " WHERE s.word=#{word} " +
             ") " +
-            "AND levenshtein(w.word, #{name}) <= 3 " +
-            "ORDER BY levenshtein(w.word, #{name}) " +
+            "AND levenshtein(w.word, #{word}) <= 3 " +
+            "ORDER BY levenshtein(w.word, #{word}) " +
             "LIMIT 20 ")
     List<String> getLookAlike(@Param("word") String word);
 }

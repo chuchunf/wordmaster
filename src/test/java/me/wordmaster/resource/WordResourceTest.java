@@ -10,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -38,6 +36,7 @@ public class WordResourceTest {
     public void setup() {
         when(service.getNext10Words("user")).thenReturn(new ArrayList());
         when(service.getWorDDetails("a")).thenReturn(new WordVO());
+        when(service.getQuestion(Arrays.asList("a"))).thenReturn(new ArrayList());
     }
 
     @Test
@@ -61,6 +60,19 @@ public class WordResourceTest {
 
         HttpEntity<String> request = new HttpEntity<>("parameters", headers);
         ResponseEntity<WordVO> result = restTemplate.exchange("/api/word/details/a", HttpMethod.GET, request, WordVO.class);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testAskQuestions() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>("[\"a\"]", headers);
+        ResponseEntity<List> result = restTemplate.exchange("/api/word/ask", HttpMethod.POST, request, List.class);
         assertNotNull(result);
     }
 }

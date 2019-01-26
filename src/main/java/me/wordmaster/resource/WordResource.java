@@ -2,18 +2,17 @@ package me.wordmaster.resource;
 
 import me.wordmaster.security.AllowedRoles;
 import me.wordmaster.service.WordService;
+import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Component
 @Path("word")
@@ -37,5 +36,15 @@ public class WordResource {
     public Response getWord(@PathParam("word") String word) {
         WordVO vo = service.getWorDDetails(word);
         return Response.ok(service.getWorDDetails(word)).build();
+    }
+
+    @POST
+    @Path("ask")
+    @AllowedRoles
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response askQuestions(List<String> words) {
+        List<QuestionVO> questions = service.getQuestion(words);
+        return Response.ok(questions).build();
     }
 }

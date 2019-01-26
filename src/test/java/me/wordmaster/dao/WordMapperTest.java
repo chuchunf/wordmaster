@@ -72,7 +72,7 @@ public class WordMapperTest {
     public void testRandomDefintion() {
         List<String> list = mapper.getRandomDefinition("a");
         assertNotNull(list);
-        assertEquals(3, list.size());
+        assertEquals(1, list.size());
     }
 
     @Test

@@ -69,7 +69,8 @@ public interface WordMapper {
             "  INNER JOIN synonym syn on s.thesaurus = syn.linkid " +
             "  WHERE s.word=#{word}" +
             ") " +
-            "AND s.word = #{word}")
+            "AND s.word<>#{word} " +
+            "LIMIT 20")
     List<String> getRandomDefinition(@Param("word") String word);
 
     @Select("SELECT definition FROM sense " +
