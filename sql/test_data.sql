@@ -14,9 +14,16 @@ INSERT INTO entry(word, seqno, category) values ('a', '001', 'a category 1');
 INSERT INTO entry(word, seqno, category) values ('a', '002', 'a category 2');
 INSERT INTO entry(word, seqno, category) values ('b', '001', 'b category 1');
 
-INSERT INTO sense(id, word, seqno, definition) values ('a001', 'a', '001', 'definition of a 001');
-INSERT INTO sense(id, word, seqno, definition) values ('a001-2', 'a', '001', 'deifnition of a 001 also');
-INSERT INTO sense(id, word, seqno, definition) values ('a002-1', 'a', '002', 'deifnition of a 002');
-INSERT INTO sense(id, word, seqno, definition) values ('b001', 'b', '001', 'deifnition of b 001');
+INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('a001', 'a', '001', 'definition of a 001', 'link-sym-a1');
+INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('a001-2', 'a', '001', 'deifnition of a 001 also', 'link-sym-a2');
+INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('a002-1', 'a', '002', 'deifnition of a 002','link-sym-a21');
+INSERT INTO sense(id, word, seqno, definition, thesaurus) values ('b001', 'b', '001', 'deifnition of b 001', 'link-sym-b1');
 
+INSERT INTO synonym(linkid,synonym) VALUES ('link-sym-a1', 'sym-a1');
+INSERT INTO synonym(linkid,synonym) VALUES ('link-sym-a2', 'sym-a2');
 
+INSERT INTO antonym(linkid,antonym) VALUES ('link-sym-a1', 'antoym-a1');
+INSERT INTO antonym(linkid,antonym) VALUES ('link-sym-a2', 'antoym-a2');
+
+INSERT INTO matrix(word,relation,word2) VALUES ('a','derived','a-derived1');
+INSERT INTO matrix(word,relation,word2) VALUES ('a','derived','a-derived2');

@@ -2,6 +2,7 @@ package me.wordmaster.service;
 
 import me.wordmaster.dao.WordMapper;
 import me.wordmaster.model.Word;
+import me.wordmaster.vo.WordVO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,11 +29,22 @@ public class WordServiceTest {
     @Before
     public void setup() {
         when(worddao.next10Words("user")).thenReturn(new ArrayList());
+        when(worddao.findDerivedWords("word")).thenReturn(new ArrayList());
+        when(worddao.listSynoynms("word")).thenReturn(new ArrayList());
+        when(worddao.listAntonym("word")).thenReturn(new ArrayList());
+        when(worddao.listWordEntries("word")).thenReturn(new ArrayList());
+        when(worddao.listWordSenses("word")).thenReturn(new ArrayList());
     }
 
     @Test
     public void testGetNext10Words() {
-        List<Word> words = worddao.next10Words("user");
+        List<Word> words = service.getNext10Words("user");
         assertNotNull(words);
+    }
+
+    @Test
+    public void testGetWordDetails() {
+        WordVO vo = service.getWorDDetails("word");
+        assertNotNull(vo);
     }
 }

@@ -1,6 +1,7 @@
 package me.wordmaster.resource;
 
 import me.wordmaster.security.JWTService;
+import me.wordmaster.vo.WordVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -35,5 +36,23 @@ public class WordResourceIntegratedTest {
         HttpEntity<String> request = new HttpEntity<>("parameters", headers);
         ResponseEntity<List> result = restTemplate.exchange("/api/word/next10words", HttpMethod.GET, request, List.class);
         assertNotNull(result);
+    }
+
+    @Test
+    public void testGetDetails() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+
+        HttpEntity<String> request = new HttpEntity<>("parameters", headers);
+        ResponseEntity<WordVO> result = restTemplate.exchange("/api/word/details/a", HttpMethod.GET, request, WordVO.class);
+        assertNotNull(result);
+        WordVO vo = result.getBody();
+        assertNotNull(vo);
+        assertEquals("a", vo.getWord());
+        assertFalse(vo.getAcronyms().isEmpty());
+        assertFalse(vo.getSynonyms().isEmpty());
+        assertFalse(vo.getEntries().isEmpty());
     }
 }

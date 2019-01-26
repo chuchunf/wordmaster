@@ -4,6 +4,7 @@ public class Word {
     private String word;
     private String category;
     private String definition;
+    private String relation; // synonym, acronym, etc
 
     public String getWord() {
         return word;
@@ -29,12 +30,21 @@ public class Word {
         this.definition = definition;
     }
 
+    public String getRelation() {
+        return relation;
+    }
+
+    public void setRelation(String relation) {
+        this.relation = relation;
+    }
+
     @Override
     public String toString() {
         return "Word{" +
                 "word='" + word + '\'' +
                 ", category='" + category + '\'' +
                 ", definition='" + definition + '\'' +
+                ", relation='" + relation + "\'" +
                 '}';
     }
 }
