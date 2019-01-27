@@ -1,8 +1,10 @@
 package me.wordmaster.service;
 
-import me.wordmaster.dao.OtherMapper;
-import me.wordmaster.dao.WordMapper;
+import me.wordmaster.dao.*;
+import me.wordmaster.model.AppUser;
+import me.wordmaster.model.Session;
 import me.wordmaster.model.Word;
+import me.wordmaster.vo.AnswerVO;
 import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.junit.Before;
@@ -27,6 +29,12 @@ public class WordServiceTest {
     private WordMapper worddao;
     @MockBean
     private OtherMapper otherdao;
+    @MockBean
+    private UserMapper userdao;
+    @MockBean
+    private UserWordMapper userworddao;
+    @MockBean
+    private SessionMapper sessiondao;
 
     @Autowired
     private WordService service;
@@ -44,6 +52,16 @@ public class WordServiceTest {
 
         when(otherdao.getLookAlike("a")).thenReturn(Arrays.asList("b", "c", "d"));
         when(worddao.getRandomDefinition("a")).thenReturn(Arrays.asList("defintion a 1", "definition a 2", "definition a 3"));
+
+        AppUser user = new AppUser();
+        user.setUsername("test");
+        user.setId(1L);
+        when(userdao.getUser("user")).thenReturn(user);
+
+        Session session = new Session();
+        session.setUserid(1L);
+        session.setId("20190101");
+        when(sessiondao.getSession("20190101", 1L)).thenReturn(session);
     }
 
     @Test
@@ -62,5 +80,14 @@ public class WordServiceTest {
     public void testGetQuestioin() {
         List<QuestionVO> vos = service.getQuestion(Arrays.asList("a"));
         assertNotNull(vos);
+    }
+
+    @Test
+    public void testAnswer() {
+        AnswerVO vo = new AnswerVO();
+        vo.setWord("a");
+        vo.setResult(true);
+        List<AnswerVO> list = Arrays.asList(vo);
+        service.updateRecord("user", list);
     }
 }
