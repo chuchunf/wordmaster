@@ -1,9 +1,12 @@
 package me.wordmaster.dao;
 
 import me.wordmaster.model.TopUser;
+import me.wordmaster.model.UserWord;
 import me.wordmaster.model.Word;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -42,4 +45,29 @@ public interface UserWordMapper {
             "  GROUP BY s.word " +
             ")")
     List<Word> listWordsByDay(@Param("username") String username, @Param("date") String date, @Param("level") int level);
+
+    @Select("SELECT * FROM userword WHERE userid=#{userid} AND word=#{word}")
+    UserWord getUserWord(@Param("userid") Integer userid, @Param("word") String word);
+
+    @Update("UPDATE userword SET " +
+            "   star    = #{userword.star}, " +
+            "   attempt = #{userword.attempt}, " +
+            "   mastery = #{userword.mastery}, " +
+            "   status  = #{userword.status}, " +
+            "   updated = #{userword.updated} " +
+            "WHERE userid=#{userword.userid} " +
+            "AND word=#{userword.word} ")
+    void updateUserWord(@Param("userword") UserWord userword);
+
+    @Insert("INSERT INTO userword (userid,word,star,attempt,mastery,status,created,updated) VALUES (" +
+            "   #{userword.userid}," +
+            "   #{userword.word}," +
+            "   #{userword.star}," +
+            "   #{userword.attempt}," +
+            "   #{userword.mastery}, " +
+            "   #{userword.status}, " +
+            "   #{userword.created}, " +
+            "   #{userword.updated}" +
+            ")")
+    void insertUserWord(@Param("userword") UserWord userword);
 }

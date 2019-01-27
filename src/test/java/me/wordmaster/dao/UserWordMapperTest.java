@@ -1,6 +1,7 @@
 package me.wordmaster.dao;
 
 import me.wordmaster.model.TopUser;
+import me.wordmaster.model.UserWord;
 import me.wordmaster.model.Word;
 import me.wordmaster.util.DateUtils;
 import org.junit.Test;
@@ -42,5 +43,38 @@ public class UserWordMapperTest {
         List<Word> words = mapper.listWordsByDay("user", "20190101", 3);
         assertNotNull(words);
         assertFalse(words.isEmpty());
+    }
+
+    @Test
+    public void testGetUserWord() {
+        UserWord userword = mapper.getUserWord(1, "a");
+        assertNotNull(userword);
+    }
+
+    @Test
+    public void testUpdateUserWord() {
+        UserWord userword = mapper.getUserWord(1, "a");
+        assertNotNull(userword);
+
+        userword.setAttempt(1);
+        mapper.updateUserWord(userword);
+
+        userword = mapper.getUserWord(1, "a");
+        assertNotNull(userword);
+        assertSame(1, userword.getAttempt());
+    }
+
+    @Test
+    public void testInsertUserWord() {
+        UserWord userword = new UserWord();
+        userword.setUserid(2);
+        userword.setWord("b");
+        userword.setAttempt(1);
+        userword.setMastery(1);
+        userword.setStar("Y");
+        userword.setStatus("A");
+        userword.setCreated("20190102");
+        userword.setUpdated("20190102");
+        mapper.insertUserWord(userword);
     }
 }
