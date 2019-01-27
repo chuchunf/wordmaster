@@ -11,4 +11,8 @@ public final class DateUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         return formatter.format(date);
     }
+
+    public static String nowAsYYYYMMDD() {
+        return toYYYYMMDD(new Date());
+    }
 }

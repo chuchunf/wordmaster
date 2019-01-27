@@ -20,7 +20,7 @@ public class SessionMapperTest {
     public void testInsert() {
         Session session = new Session();
         session.setId("20190102");
-        session.setUserid(1);
+        session.setUserid(1L);
         session.setLearned(1);
         session.setPracticed(1);
         session.setMastered(1);
@@ -29,19 +29,19 @@ public class SessionMapperTest {
 
     @Test
     public void testSelect() {
-        Session session = mapper.getSession("20190101", 1);
+        Session session = mapper.getSession("20190101", 1L);
         assertNotNull(session);
     }
 
     @Test
     public void testUpdate() {
-        Session session = mapper.getSession("20190101", 1);
+        Session session = mapper.getSession("20190101", 1L);
         assertNotNull(session);
 
         session.setMastered(10);
         mapper.updateSession(session);
 
-        session = mapper.getSession("20190101", 1);
+        session = mapper.getSession("20190101", 1L);
         assertNotNull(session);
         assertSame(10, session.getMastered());
     }

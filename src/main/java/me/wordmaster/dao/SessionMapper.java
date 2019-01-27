@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Update;
 
 public interface SessionMapper {
     @Select("SELECT * FROM session WHERE id=#{date} AND userid=#{userid}")
-    Session getSession(@Param("date") String date, @Param("userid") Integer userid);
+    Session getSession(@Param("date") String date, @Param("userid") Long userid);
 
     @Update("UPDATE session SET" +
             "   practiced = #{session.practiced}, " +

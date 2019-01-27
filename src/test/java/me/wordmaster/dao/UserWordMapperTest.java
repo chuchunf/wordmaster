@@ -47,19 +47,19 @@ public class UserWordMapperTest {
 
     @Test
     public void testGetUserWord() {
-        UserWord userword = mapper.getUserWord(1, "a");
+        UserWord userword = mapper.getUserWord(1L, "a");
         assertNotNull(userword);
     }
 
     @Test
     public void testUpdateUserWord() {
-        UserWord userword = mapper.getUserWord(1, "a");
+        UserWord userword = mapper.getUserWord(1L, "a");
         assertNotNull(userword);
 
         userword.setAttempt(1);
         mapper.updateUserWord(userword);
 
-        userword = mapper.getUserWord(1, "a");
+        userword = mapper.getUserWord(1L, "a");
         assertNotNull(userword);
         assertSame(1, userword.getAttempt());
     }
@@ -67,7 +67,7 @@ public class UserWordMapperTest {
     @Test
     public void testInsertUserWord() {
         UserWord userword = new UserWord();
-        userword.setUserid(2);
+        userword.setUserid(2L);
         userword.setWord("b");
         userword.setAttempt(1);
         userword.setMastery(1);

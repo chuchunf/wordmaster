@@ -47,7 +47,7 @@ public interface UserWordMapper {
     List<Word> listWordsByDay(@Param("username") String username, @Param("date") String date, @Param("level") int level);
 
     @Select("SELECT * FROM userword WHERE userid=#{userid} AND word=#{word}")
-    UserWord getUserWord(@Param("userid") Integer userid, @Param("word") String word);
+    UserWord getUserWord(@Param("userid") Long userid, @Param("word") String word);
 
     @Update("UPDATE userword SET " +
             "   star    = #{userword.star}, " +

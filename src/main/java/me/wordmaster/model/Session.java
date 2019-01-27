@@ -2,10 +2,10 @@ package me.wordmaster.model;
 
 public class Session {
     private String id;
-    private Integer userid;
-    private Integer practiced;
-    private Integer learned;
-    private Integer mastered;
+    private Long userid = 0L;
+    private Integer practiced = 0;
+    private Integer learned = 0;
+    private Integer mastered = 0;
 
     public String getId() {
         return id;
@@ -15,11 +15,11 @@ public class Session {
         this.id = id;
     }
 
-    public Integer getUserid() {
+    public Long getUserid() {
         return userid;
     }
 
-    public void setUserid(Integer userid) {
+    public void setUserid(Long userid) {
         this.userid = userid;
     }
 

@@ -1,20 +1,20 @@
 package me.wordmaster.model;
 
 public class UserWord {
-    private Integer userid;
+    private Long userid;
     private String word;
     private String star;
-    private Integer attempt;
-    private Integer mastery;
+    private Integer attempt = 0;
+    private Integer mastery = 0;
     private String status;
     private String created;
     private String updated;
 
-    public Integer getUserid() {
+    public Long getUserid() {
         return userid;
     }
 
-    public void setUserid(Integer userid) {
+    public void setUserid(Long userid) {
         this.userid = userid;
     }
 

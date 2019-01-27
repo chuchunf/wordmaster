@@ -54,8 +54,9 @@ public class WordResource {
     @AllowedRoles
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response answerQuestions(AnswerVO answer) {
-        service.updateRecord(answer);
+    public Response answerQuestions(@Context HttpServletRequest request, List<AnswerVO> answer) {
+        String username = (String) request.getSession().getAttribute("user");
+        service.updateRecord(username, answer);
         return Response.ok().build();
     }
 }

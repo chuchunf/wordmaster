@@ -2,6 +2,7 @@ package me.wordmaster.resource;
 
 import me.wordmaster.security.JWTService;
 import me.wordmaster.service.WordService;
+import me.wordmaster.vo.AnswerVO;
 import me.wordmaster.vo.WordVO;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +39,12 @@ public class WordResourceTest {
         when(service.getNext10Words("user")).thenReturn(new ArrayList());
         when(service.getWorDDetails("a")).thenReturn(new WordVO());
         when(service.getQuestion(Arrays.asList("a"))).thenReturn(new ArrayList());
+
+        AnswerVO vo = new AnswerVO();
+        vo.setWord("a");
+        vo.setResult(true);
+        List<AnswerVO> list = Arrays.asList(vo);
+        doNothing().when(service).updateRecord("user", Arrays.asList(vo));
     }
 
     @Test
@@ -73,6 +81,19 @@ public class WordResourceTest {
 
         HttpEntity<String> request = new HttpEntity<>("[\"a\"]", headers);
         ResponseEntity<List> result = restTemplate.exchange("/api/word/ask", HttpMethod.POST, request, List.class);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testAnswer() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"result\":\"true\"}]", headers);
+        ResponseEntity<String> result = restTemplate.exchange("/api/word/answer", HttpMethod.POST, request, String.class);
         assertNotNull(result);
     }
 }

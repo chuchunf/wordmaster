@@ -1,28 +1,37 @@
 package me.wordmaster.service;
 
-import me.wordmaster.dao.OtherMapper;
-import me.wordmaster.dao.WordMapper;
-import me.wordmaster.model.Word;
-import me.wordmaster.model.WordEntry;
-import me.wordmaster.model.WordSense;
+import me.wordmaster.dao.*;
+import me.wordmaster.model.*;
+import me.wordmaster.util.DateUtils;
+import me.wordmaster.util.Mastery;
 import me.wordmaster.vo.AnswerVO;
 import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class WordService {
+    private static final Logger LOGGER = Logger.getLogger(WordService.class.getName());
+
     @Autowired
     private WordMapper mapper;
     @Autowired
     private OtherMapper othermapper;
+    @Autowired
+    private SessionMapper sessionmapper;
+    @Autowired
+    private UserMapper usermapper;
+    @Autowired
+    private UserWordMapper userwordmapper;
 
     public List<Word> getNext10Words(String username) {
         return mapper.next10Words(username);
@@ -55,7 +64,50 @@ public class WordService {
                 .collect(Collectors.toList());
     }
 
-    public void updateRecord(AnswerVO answer) {
+    @Transactional
+    public void updateRecord(String username, List<AnswerVO> answer) {
+        AppUser user = usermapper.getUser(username);
+        if (user == null) {
+            LOGGER.severe("invalid user called updateRecord: [" + username + "]");
+            return;
+        }
+        Long userid = user.getId();
+
+        int learned = 0, practiced = 0, mastered = 0;
+        for (AnswerVO vo : answer) {
+            UserWord uword = userwordmapper.getUserWord(userid, vo.getWord());
+            if (uword == null) {
+                uword = new UserWord();
+                uword.setUserid(userid);
+                uword.setWord(vo.getWord());
+                userwordmapper.insertUserWord(uword);
+            }
+            uword.setAttempt(uword.getAttempt() + 1);
+            if (vo.getResult()) {
+                uword.setMastery(uword.getMastery() + 1);
+                if (uword.getMastery() >= Mastery.MASTERED.getLevel()) {
+                    mastered++;
+                } else if (uword.getMastery() >= Mastery.TEST1.getLevel()) {
+                    learned++;
+                } else {
+                    practiced++;
+                }
+            }
+            userwordmapper.updateUserWord(uword);
+        }
+
+        String today = DateUtils.nowAsYYYYMMDD();
+        Session session = sessionmapper.getSession(today, userid);
+        if (session == null) {
+            session = new Session();
+            session.setId(today);
+            session.setUserid(userid);
+            sessionmapper.insertSession(session);
+        }
+        session.setMastered(session.getMastered() + mastered);
+        session.setLearned(session.getLearned() + learned);
+        session.setPracticed(session.getPracticed() + practiced);
+        sessionmapper.updateSession(session);
     }
 
     private QuestionVO createRandomQuestion(String word) {
