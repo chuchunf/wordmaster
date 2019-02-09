@@ -127,7 +127,9 @@ public class WordService {
 
         for (BookWordVO vo : words) {
             if (nowList.contains(vo.getBook())) {
-                removeList.remove(vo.getBook());
+                removeList = removeList.stream()
+                        .filter(book -> book.getTitle().equals(vo.getBook()))
+                        .collect(Collectors.toList());
             }
 
             if (!newBooks.contains(vo.getBook())) {
