@@ -9,8 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -57,5 +56,12 @@ public class BookMapperTest {
         List<Book> books = mapper.listBookByWord("c");
         assertNotNull(books);
         assertEquals(1, books.size());
+    }
+
+    @Test
+    public void testListAllBooks() {
+        List<Book> books = mapper.listBooks();
+        assertNotNull(books);
+        assertTrue(books.size() > 0);
     }
 }

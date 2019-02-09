@@ -2,9 +2,11 @@ package me.wordmaster.service;
 
 import me.wordmaster.dao.*;
 import me.wordmaster.model.AppUser;
+import me.wordmaster.model.Book;
 import me.wordmaster.model.Session;
 import me.wordmaster.model.Word;
 import me.wordmaster.vo.AnswerVO;
+import me.wordmaster.vo.BookWordVO;
 import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.junit.Before;
@@ -20,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -35,6 +39,8 @@ public class WordServiceTest {
     private UserWordMapper userworddao;
     @MockBean
     private SessionMapper sessiondao;
+    @MockBean
+    private BookMapper bookdao;
 
     @Autowired
     private WordService service;
@@ -62,6 +68,15 @@ public class WordServiceTest {
         session.setUserid(1L);
         session.setId("20190101");
         when(sessiondao.getSession("20190101", 1L)).thenReturn(session);
+
+        Book book = new Book();
+        book.setId(1L);
+        book.setTitle("title1");
+        when(bookdao.listBookByWord("a")).thenReturn(Arrays.asList(book));
+        when(bookdao.listBooks()).thenReturn(Arrays.asList(book));
+        when(bookdao.getBookByTitle("title1")).thenReturn(book);
+        doNothing().when(bookdao).addBookWord(isA(Long.class), isA(String.class));
+        doNothing().when(bookdao).deleteBookWord(isA(Long.class), isA(String.class));
     }
 
     @Test
@@ -89,5 +104,15 @@ public class WordServiceTest {
         vo.setResult(true);
         List<AnswerVO> list = Arrays.asList(vo);
         service.updateRecord("user", list);
+    }
+
+    @Test
+    public void testUpdateBookWord() {
+        BookWordVO vo1 = new BookWordVO();
+        vo1.setWord("a");
+        vo1.setBook("title1");
+
+        List<BookWordVO> list = Arrays.asList(vo1);
+        service.updateBookWord(list);
     }
 }

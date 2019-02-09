@@ -5,6 +5,7 @@ import me.wordmaster.model.*;
 import me.wordmaster.util.DateUtils;
 import me.wordmaster.util.Mastery;
 import me.wordmaster.vo.AnswerVO;
+import me.wordmaster.vo.BookWordVO;
 import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class WordService {
     private UserMapper usermapper;
     @Autowired
     private UserWordMapper userwordmapper;
+    @Autowired
+    private BookMapper bookmapper;
 
     public List<Word> getNext10Words(String username) {
         return mapper.next10Words(username);
@@ -108,6 +111,38 @@ public class WordService {
         session.setLearned(session.getLearned() + learned);
         session.setPracticed(session.getPracticed() + practiced);
         sessionmapper.updateSession(session);
+    }
+
+    @Transactional
+    public void updateBookWord(List<BookWordVO> words) {
+        if (words == null || words.isEmpty()) return;
+
+        String word = words.get(0).getWord();
+        List<Book> removeList = bookmapper.listBookByWord(word);
+        List<Book> books = bookmapper.listBooks();
+        if (removeList == null) removeList = new ArrayList<>();
+        if (books == null) books = new ArrayList<>();
+        List<String> nowList = removeList.stream().map(Book::getTitle).collect(Collectors.toList());
+        List<String> newBooks = books.stream().map(Book::getTitle).collect(Collectors.toList());
+
+        for (BookWordVO vo : words) {
+            if (nowList.contains(vo.getBook())) {
+                removeList.remove(vo.getBook());
+            }
+
+            if (!newBooks.contains(vo.getBook())) {
+                Book book = new Book();
+                book.setTitle(vo.getBook());
+                bookmapper.createBook(book);
+            }
+
+            Book book = bookmapper.getBookByTitle(vo.getBook());
+            bookmapper.addBookWord(book.getId(), vo.getWord());
+        }
+
+        for (Book book : removeList) {
+            bookmapper.deleteBookWord(book.getId(), word);
+        }
     }
 
     private QuestionVO createRandomQuestion(String word) {

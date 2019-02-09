@@ -23,4 +23,7 @@ public interface BookMapper {
 
     @Delete("DELETE FROM bookword WHERE bookid=#{bookid} AND word=#{word}")
     void deleteBookWord(@Param("bookid") Long bookid, @Param("word") String word);
+
+    @Select("SELECT * FROM book")
+    List<Book> listBooks();
 }

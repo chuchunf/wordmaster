@@ -38,3 +38,5 @@ INSERT INTO sample(senseid, text) VALUES ('a001-2', 'sample txt 1 for a 001 2 2'
 INSERT INTO session(id,userid,practiced,learned,mastered) VALUES ('20190101',1,1,1,1);
 
 INSERT INTO book(title, author, isbn) VALUES ('title1','author1','isbn1');
+
+INSERT INTO bookword(bookid, word) VALUES (1, 'a');
