@@ -3,6 +3,7 @@ package me.wordmaster.resource;
 import me.wordmaster.security.AllowedRoles;
 import me.wordmaster.service.WordService;
 import me.wordmaster.vo.AnswerVO;
+import me.wordmaster.vo.BookWordVO;
 import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,15 @@ public class WordResource {
         service.updateRecord(username, answer);
         return Response.ok().build();
     }
+
+    @POST
+    @Path("bookword")
+    @AllowedRoles
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateBookWord(List<BookWordVO> lists) {
+        service.updateBookWord(lists);
+        return Response.ok().build();
+    }
+
 }
