@@ -1,5 +1,6 @@
 package me.wordmaster.resource;
 
+import me.wordmaster.model.UserWord;
 import me.wordmaster.security.AllowedRoles;
 import me.wordmaster.service.WordService;
 import me.wordmaster.vo.AnswerVO;
@@ -68,6 +69,17 @@ public class WordResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBookWord(List<BookWordVO> lists) {
         service.updateBookWord(lists);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("userword")
+    @AllowedRoles
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUserWord(@Context HttpServletRequest request, UserWord word) {
+        String username = (String) request.getSession().getAttribute("user");
+        service.updateUserWord(username, word);
         return Response.ok().build();
     }
 }

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.Path;
 
 @Component
-@Path("manage")
-public class ManageResource {
+@Path("report")
+public class ReportResource {
 }

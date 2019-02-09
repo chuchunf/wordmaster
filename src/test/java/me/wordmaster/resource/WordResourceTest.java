@@ -1,5 +1,6 @@
 package me.wordmaster.resource;
 
+import me.wordmaster.model.UserWord;
 import me.wordmaster.security.JWTService;
 import me.wordmaster.service.WordService;
 import me.wordmaster.vo.AnswerVO;
@@ -48,6 +49,7 @@ public class WordResourceTest {
         doNothing().when(service).updateRecord("user", Arrays.asList(vo));
 
         doNothing().when(service).updateBookWord(isA(List.class));
+        doNothing().when(service).updateUserWord(isA(String.class), isA(UserWord.class));
     }
 
     @Test
@@ -110,6 +112,19 @@ public class WordResourceTest {
 
         HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"book\":\"title1\"}]", headers);
         ResponseEntity<String> result = restTemplate.exchange("/api/word/bookword", HttpMethod.POST, request, String.class);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testUpdateUserWord() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"userid\":\"1\"}]", headers);
+        ResponseEntity<String> result = restTemplate.exchange("/api/word/userword", HttpMethod.POST, request, String.class);
         assertNotNull(result);
     }
 }

@@ -1,7 +1,7 @@
 package me.wordmaster;
 
 import me.wordmaster.resource.AdminResource;
-import me.wordmaster.resource.ManageResource;
+import me.wordmaster.resource.ReportResource;
 import me.wordmaster.resource.UserResource;
 import me.wordmaster.resource.WordResource;
 import me.wordmaster.security.JWTFilter;
@@ -16,8 +16,8 @@ public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         register(UserResource.class);
         register(WordResource.class);
-        register(ManageResource.class);
         register(AdminResource.class);
+        register(ReportResource.class);
 
         register(JWTFilter.class);
     }
