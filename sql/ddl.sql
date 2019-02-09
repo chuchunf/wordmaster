@@ -109,7 +109,7 @@ CREATE TABLE userword (
 
 CREATE TABLE book (
    id       SERIAL CONSTRAINT book_pk PRIMARY KEY,
-   title    varchar(200),
+   title    varchar(200) UNIQUE,
    author   varchar(100),
    isbn     varchar(20)
 );
