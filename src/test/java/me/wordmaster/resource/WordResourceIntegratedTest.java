@@ -92,4 +92,17 @@ public class WordResourceIntegratedTest {
         ResponseEntity<String> result = restTemplate.exchange("/api/word/answer", HttpMethod.POST, request, String.class);
         assertNotNull(result);
     }
+
+    @Test
+    public void testUpdateBookWords() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"book\":\"title1\"}]", headers);
+        ResponseEntity<String> result = restTemplate.exchange("/api/word/bookword", HttpMethod.POST, request, String.class);
+        assertNotNull(result);
+    }
 }

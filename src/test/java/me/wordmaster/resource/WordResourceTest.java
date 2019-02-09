@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -45,6 +46,8 @@ public class WordResourceTest {
         vo.setResult(true);
         List<AnswerVO> list = Arrays.asList(vo);
         doNothing().when(service).updateRecord("user", Arrays.asList(vo));
+
+        doNothing().when(service).updateBookWord(isA(List.class));
     }
 
     @Test
@@ -94,6 +97,19 @@ public class WordResourceTest {
 
         HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"result\":\"true\"}]", headers);
         ResponseEntity<String> result = restTemplate.exchange("/api/word/answer", HttpMethod.POST, request, String.class);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testUpdateBookWords() {
+        String jwttoken = jwtservice.createToken("user");
+        assertNotNull(jwttoken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwttoken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"book\":\"title1\"}]", headers);
+        ResponseEntity<String> result = restTemplate.exchange("/api/word/bookword", HttpMethod.POST, request, String.class);
         assertNotNull(result);
     }
 }

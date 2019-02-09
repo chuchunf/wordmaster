@@ -70,5 +70,4 @@ public class WordResource {
         service.updateBookWord(lists);
         return Response.ok().build();
     }
-
 }
