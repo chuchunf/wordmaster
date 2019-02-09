@@ -1,10 +1,7 @@
 package me.wordmaster.service;
 
 import me.wordmaster.dao.*;
-import me.wordmaster.model.AppUser;
-import me.wordmaster.model.Book;
-import me.wordmaster.model.Session;
-import me.wordmaster.model.Word;
+import me.wordmaster.model.*;
 import me.wordmaster.vo.AnswerVO;
 import me.wordmaster.vo.BookWordVO;
 import me.wordmaster.vo.QuestionVO;
@@ -77,6 +74,10 @@ public class WordServiceTest {
         when(bookdao.getBookByTitle("title1")).thenReturn(book);
         doNothing().when(bookdao).addBookWord(isA(Long.class), isA(String.class));
         doNothing().when(bookdao).deleteBookWord(isA(Long.class), isA(String.class));
+
+        when(userworddao.getUserWord(1L, "a")).thenReturn(new UserWord());
+        doNothing().when(userworddao).updateUserWord(isA(UserWord.class));
+        doNothing().when(userworddao).insertUserWord(isA(UserWord.class));
     }
 
     @Test
@@ -114,5 +115,13 @@ public class WordServiceTest {
 
         List<BookWordVO> list = Arrays.asList(vo1);
         service.updateBookWord(list);
+    }
+
+    @Test
+    public void testUpdateUserWord() {
+        UserWord userword = new UserWord();
+        userword.setUserid(1L);
+        userword.setWord("a");
+        service.updateUserWord("user", userword);
     }
 }

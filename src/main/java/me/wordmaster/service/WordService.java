@@ -145,6 +145,32 @@ public class WordService {
         }
     }
 
+    @Transactional
+    public void updateUserWord(String username, UserWord userWord) {
+        AppUser user = usermapper.getUser(username);
+        if (user == null) {
+            LOGGER.severe("unknown user access !![" + username + "]");
+            return;
+        }
+        userWord.setUserid(user.getId());
+
+        String star = userWord.getStar();
+        if (star == null || (!star.equals("N") && !star.equals("Y"))) {
+            userWord.setStar("N");
+        }
+        Integer mastery = userWord.getMastery();
+        if (mastery == null || mastery < Mastery.NEW.getLevel() || mastery > Mastery.MASTERED.getLevel()) {
+            userWord.setMastery(Mastery.NEW.getLevel());
+        }
+
+        UserWord existing = userwordmapper.getUserWord(user.getId(), userWord.getWord());
+        if (existing == null) {
+            userwordmapper.insertUserWord(userWord);
+        } else {
+            userwordmapper.updateUserWord(userWord);
+        }
+    }
+
     private QuestionVO createRandomQuestion(String word) {
         if (new Random().nextBoolean()) return createClozeQuestion(word);
         else if (new Random().nextBoolean()) return createChooseWordQuestion(word);
