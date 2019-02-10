@@ -6,7 +6,6 @@ import me.wordmaster.service.WordService;
 import me.wordmaster.vo.AnswerVO;
 import me.wordmaster.vo.BookWordVO;
 import me.wordmaster.vo.QuestionVO;
-import me.wordmaster.vo.WordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +36,6 @@ public class WordResource {
     @AllowedRoles
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWord(@PathParam("word") String word) {
-        WordVO vo = service.getWorDDetails(word);
         return Response.ok(service.getWorDDetails(word)).build();
     }
 

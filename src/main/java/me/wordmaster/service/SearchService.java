@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.NotSupportedException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
@@ -28,8 +29,8 @@ public class SearchService {
     public List<Word> searchByBook(String title) {
         Book book = bookmapper.getBookByTitle(title);
         if (book == null) {
-            LOGGER.info("search a non-existence book [" + title + "]");
-            return Arrays.asList();
+            LOGGER.log(Level.INFO, "search a non-existence book {0}", title);
+            return new ArrayList<>();
         }
 
         return bookmapper.listWordByBook(book.getId());

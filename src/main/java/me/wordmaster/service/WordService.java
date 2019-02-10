@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -71,12 +72,14 @@ public class WordService {
     public void updateRecord(String username, List<AnswerVO> answer) {
         AppUser user = usermapper.getUser(username);
         if (user == null) {
-            LOGGER.severe("invalid user called updateRecord: [" + username + "]");
+            LOGGER.log(Level.SEVERE, "invaludate user called {0}", username);
             return;
         }
         Long userid = user.getId();
 
-        int learned = 0, practiced = 0, mastered = 0;
+        int learned = 0;
+        int practiced = 0;
+        int mastered = 0;
         for (AnswerVO vo : answer) {
             UserWord uword = userwordmapper.getUserWord(userid, vo.getWord());
             if (uword == null) {
@@ -151,7 +154,7 @@ public class WordService {
     public void updateUserWord(String username, UserWord userWord) {
         AppUser user = usermapper.getUser(username);
         if (user == null) {
-            LOGGER.severe("unknown user access !![" + username + "]");
+            LOGGER.log(Level.SEVERE, "unknow user access {0}", username);
             return;
         }
         userWord.setUserid(user.getId());
@@ -187,8 +190,7 @@ public class WordService {
 
         List<String> alikes = othermapper.getLookAlike(word);
         Collections.shuffle(alikes);
-        List<String> choises = new ArrayList<>();
-        choises.addAll(alikes.subList(0, 3));
+        List<String> choises = new ArrayList<>(alikes.subList(0, 3));
         choises.add(word);
         Collections.shuffle(choises);
         vo.setChoises(choises);
@@ -206,8 +208,7 @@ public class WordService {
 
         List<String> defintions = mapper.getRandomDefinition(word);
         Collections.shuffle(defintions);
-        List<String> choises = new ArrayList<>();
-        choises.addAll(defintions.subList(0, 3));
+        List<String> choises = new ArrayList<>(defintions.subList(0, 3));
         String definition = mapper.getFirstDefinition(word);
         choises.add(definition);
         Collections.shuffle(choises);
@@ -230,8 +231,7 @@ public class WordService {
 
         List<String> alikes = othermapper.getLookAlike(word);
         Collections.shuffle(alikes);
-        List<String> choises = new ArrayList<>();
-        choises.addAll(alikes.subList(0, 3));
+        List<String> choises = new ArrayList<>(alikes.subList(0, 3));
         choises.add(word);
         Collections.shuffle(choises);
         vo.setChoises(choises);
