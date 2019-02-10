@@ -1,6 +1,7 @@
 package me.wordmaster.dao;
 
 import me.wordmaster.model.Book;
+import me.wordmaster.model.Word;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,12 @@ public class BookMapperTest {
         List<Book> books = mapper.listBooks();
         assertNotNull(books);
         assertTrue(books.size() > 0);
+    }
+
+    @Test
+    public void testListWordByBook() {
+        List<Word> list = mapper.listWordByBook(1L);
+        assertNotNull(list);
+        assertFalse(list.isEmpty());
     }
 }
