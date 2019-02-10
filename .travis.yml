@@ -5,9 +5,7 @@ jdk:
 
 install: true
 
-#script: "mvn install -Dmaven.javadoc.skip=true -B -V"
-
-script: "mvn cobertura:cobertura"
+script: "mvn install -Dmaven.javadoc.skip=true -B -V"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
