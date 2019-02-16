@@ -10,6 +10,7 @@ public class WordVO {
     private List<String> synonyms;
     private List<String> acronyms;
     private List<String> derived; // derived from/to another word
+    private List<String> alike;  // look alike words
     private List<String> related; // logic relation
 
     public String getWord() {
@@ -60,6 +61,14 @@ public class WordVO {
         this.related = related;
     }
 
+    public List<String> getAlike() {
+        return alike;
+    }
+
+    public void setAlike(List<String> alike) {
+        this.alike = alike;
+    }
+
     @Override
     public String toString() {
         return "WordVO{" +
@@ -68,6 +77,7 @@ public class WordVO {
                 ", synonyms=" + synonyms +
                 ", acronyms=" + acronyms +
                 ", derived=" + derived +
+                ", alike=" + alike +
                 ", related=" + related +
                 '}';
     }

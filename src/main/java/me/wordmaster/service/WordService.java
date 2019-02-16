@@ -49,6 +49,12 @@ public class WordService {
         vo.setAcronyms(mapper.listAntonym(word));
         vo.setDerived(mapper.findDerivedWords(word));
 
+        List<String> lookalike = othermapper.getLookAlike(word);
+        if (lookalike != null && !lookalike.isEmpty()) {
+            final int len = lookalike.size() - 1 >= 3 ? 3 : lookalike.size() - 1;
+            vo.setAlike(lookalike.subList(0, len));
+        }
+
         List<WordEntry> entries = mapper.listWordEntries(word);
         List<WordSense> senses = mapper.listWordSenses(word);
         entries.forEach(entry -> {
