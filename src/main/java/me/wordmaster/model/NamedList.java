@@ -1,6 +1,6 @@
 package me.wordmaster.model;
 
-public class Book {
+public class List {
     private Long id;
     private String title;
     private String author;
@@ -40,7 +40,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "List{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
