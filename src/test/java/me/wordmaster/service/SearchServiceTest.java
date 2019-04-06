@@ -1,8 +1,7 @@
 package me.wordmaster.service;
 
-import me.wordmaster.dao.BookMapper;
-import me.wordmaster.model.Book;
-import me.wordmaster.model.Word;
+import me.wordmaster.dao.ListMapper;
+import me.wordmaster.model.NamedList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,24 +21,24 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class SearchServiceTest {
     @MockBean
-    private BookMapper bookdao;
+    private ListMapper listdao;
 
     @Autowired
     private SearchService service;
 
     @Before
     public void setup() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("title1");
+        NamedList namedList = new NamedList();
+        namedList.setId(1L);
+        namedList.setTitle("title1");
 
-        when(bookdao.getBookByTitle(isA(String.class))).thenReturn(book);
-        when(bookdao.listWordByBook(isA(Long.class))).thenReturn(Arrays.asList());
+        when(listdao.getListByTitle(isA(String.class))).thenReturn(namedList);
+        when(listdao.listWordByList(isA(Long.class))).thenReturn(Arrays.asList());
     }
 
     @Test
     public void testSearchWordByTitle() {
-        List<Word> list = service.searchByBook("title1");
+        List list = service.searchByList("title1");
         assertNotNull(list);
     }
 }

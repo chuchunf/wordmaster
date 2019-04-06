@@ -48,7 +48,7 @@ public class WordResourceTest {
         List<AnswerVO> list = Arrays.asList(vo);
         doNothing().when(service).updateRecord("user", Arrays.asList(vo));
 
-        doNothing().when(service).updateBookWord(isA(List.class));
+        doNothing().when(service).updateListWord(isA(List.class));
         doNothing().when(service).updateUserWord(isA(String.class), isA(UserWord.class));
     }
 
@@ -103,15 +103,15 @@ public class WordResourceTest {
     }
 
     @Test
-    public void testUpdateBookWords() {
+    public void testUpdateListWords() {
         String jwttoken = jwtservice.createToken("user");
         assertNotNull(jwttoken);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", jwttoken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"book\":\"title1\"}]", headers);
-        ResponseEntity<String> result = restTemplate.exchange("/api/word/bookword", HttpMethod.POST, request, String.class);
+        HttpEntity<String> request = new HttpEntity<>("[{\"word\":\"a\",\"list\":\"title1\"}]", headers);
+        ResponseEntity<String> result = restTemplate.exchange("/api/word/listword", HttpMethod.POST, request, String.class);
         assertNotNull(result);
     }
 

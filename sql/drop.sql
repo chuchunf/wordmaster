@@ -1,5 +1,5 @@
-drop table if exists bookword CASCADE;
-drop table if exists book CASCADE;
+drop table if exists listword CASCADE;
+drop table if exists list CASCADE;
 drop table if exists synonym CASCADE;
 drop table if exists antonym CASCADE;
 drop table if exists sample CASCADE;

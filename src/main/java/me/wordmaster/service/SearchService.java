@@ -1,8 +1,8 @@
 package me.wordmaster.service;
 
-import me.wordmaster.dao.BookMapper;
+import me.wordmaster.dao.ListMapper;
 import me.wordmaster.dao.WordMapper;
-import me.wordmaster.model.Book;
+import me.wordmaster.model.NamedList;
 import me.wordmaster.model.Word;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,19 @@ public class SearchService {
     @Autowired
     private WordMapper mapper;
     @Autowired
-    private BookMapper bookmapper;
+    private ListMapper listmapper;
 
-    public List<Word> searchByProgress(String username, String start, String end, Boolean star, Integer mastery) {
+    public List searchByProgress(String username, String start, String end, Boolean star, Integer mastery) {
         throw new NotSupportedException();
     }
 
-    public List<Word> searchByBook(String title) {
-        Book book = bookmapper.getBookByTitle(title);
-        if (book == null) {
-            LOGGER.log(Level.INFO, "search a non-existence book {0}", title);
+    public List<Word> searchByList(String title) {
+        NamedList namedList = listmapper.getListByTitle(title);
+        if (namedList == null) {
+            LOGGER.log(Level.INFO, "search a non-existence namedList {0}", title);
             return new ArrayList<>();
         }
 
-        return bookmapper.listWordByBook(book.getId());
+        return listmapper.listWordByList(namedList.getId());
     }
 }

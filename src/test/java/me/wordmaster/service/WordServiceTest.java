@@ -3,8 +3,7 @@ package me.wordmaster.service;
 import me.wordmaster.dao.*;
 import me.wordmaster.model.*;
 import me.wordmaster.vo.AnswerVO;
-import me.wordmaster.vo.BookWordVO;
-import me.wordmaster.vo.QuestionVO;
+import me.wordmaster.vo.ListWordVO;
 import me.wordmaster.vo.WordVO;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,7 @@ public class WordServiceTest {
     @MockBean
     private SessionMapper sessiondao;
     @MockBean
-    private BookMapper bookdao;
+    private ListMapper listdao;
 
     @Autowired
     private WordService service;
@@ -66,14 +65,14 @@ public class WordServiceTest {
         session.setId("20190101");
         when(sessiondao.getSession("20190101", 1L)).thenReturn(session);
 
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("title1");
-        when(bookdao.listBookByWord("a")).thenReturn(Arrays.asList(book));
-        when(bookdao.listBooks()).thenReturn(Arrays.asList(book));
-        when(bookdao.getBookByTitle("title1")).thenReturn(book);
-        doNothing().when(bookdao).addBookWord(isA(Long.class), isA(String.class));
-        doNothing().when(bookdao).deleteBookWord(isA(Long.class), isA(String.class));
+        NamedList namedList = new NamedList();
+        namedList.setId(1L);
+        namedList.setTitle("title1");
+        when(listdao.listListByWord("a")).thenReturn(Arrays.asList(namedList));
+        when(listdao.listLists()).thenReturn(Arrays.asList(namedList));
+        when(listdao.getListByTitle("title1")).thenReturn(namedList);
+        doNothing().when(listdao).addListWord(isA(Long.class), isA(String.class));
+        doNothing().when(listdao).deleteListWord(isA(Long.class), isA(String.class));
 
         when(userworddao.getUserWord(1L, "a")).thenReturn(new UserWord());
         doNothing().when(userworddao).updateUserWord(isA(UserWord.class));
@@ -82,7 +81,7 @@ public class WordServiceTest {
 
     @Test
     public void testGetNext10Words() {
-        List<Word> words = service.getNext10Words("user");
+        List words = service.getNext10Words("user");
         assertNotNull(words);
     }
 
@@ -94,7 +93,7 @@ public class WordServiceTest {
 
     @Test
     public void testGetQuestioin() {
-        List<QuestionVO> vos = service.getQuestion(Arrays.asList("a"));
+        List vos = service.getQuestion(Arrays.asList("a"));
         assertNotNull(vos);
     }
 
@@ -103,18 +102,18 @@ public class WordServiceTest {
         AnswerVO vo = new AnswerVO();
         vo.setWord("a");
         vo.setResult(true);
-        List<AnswerVO> list = Arrays.asList(vo);
+        List list = Arrays.asList(vo);
         service.updateRecord("user", list);
     }
 
     @Test
-    public void testUpdateBookWord() {
-        BookWordVO vo1 = new BookWordVO();
+    public void testUpdateListWord() {
+        ListWordVO vo1 = new ListWordVO();
         vo1.setWord("a");
-        vo1.setBook("title1");
+        vo1.setList("title1");
 
-        List<BookWordVO> list = Arrays.asList(vo1);
-        service.updateBookWord(list);
+        List list = Arrays.asList(vo1);
+        service.updateListWord(list);
     }
 
     @Test

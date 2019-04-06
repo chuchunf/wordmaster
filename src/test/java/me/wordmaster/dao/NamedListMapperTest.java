@@ -1,6 +1,6 @@
 package me.wordmaster.dao;
 
-import me.wordmaster.model.List;
+import me.wordmaster.model.NamedList;
 import me.wordmaster.model.Word;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,34 +8,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ListMapperTest {
+public class NamedListMapperTest {
     @Autowired
     private ListMapper mapper;
 
     @Test
     public void testCreateList() {
-        List list = new List();
-        list.setAuthor("abc");
-        list.setTitle("abc list");
-        list.setIsbn("12121");
-        mapper.createList(list);
+        NamedList namedList = new NamedList();
+        namedList.setAuthor("abc");
+        namedList.setTitle("abc namedList");
+        namedList.setIsbn("12121");
+        mapper.createList(namedList);
     }
 
     @Test
     public void testGetListByTitle() {
-        List list = new List();
-        list.setAuthor("abc");
-        list.setTitle("abc list 2");
-        list.setIsbn("12121");
-        mapper.createList(list);
+        NamedList namedList = new NamedList();
+        namedList.setAuthor("abc");
+        namedList.setTitle("abc namedList 2");
+        namedList.setIsbn("12121");
+        mapper.createList(namedList);
 
-        list = mapper.getListByTitle("abc list 2");
-        assertNotNull(list);
-        assertEquals("abc", list.getAuthor());
+        namedList = mapper.getListByTitle("abc namedList 2");
+        assertNotNull(namedList);
+        assertEquals("abc", namedList.getAuthor());
     }
 
     @Test
@@ -52,21 +54,21 @@ public class ListMapperTest {
     @Test
     public void testListListByWord() {
         mapper.addListWord(1L, "c");
-        java.util.List<List> lists = mapper.listListByWord("c");
-        assertNotNull(lists);
-        assertEquals(1, lists.size());
+        List<NamedList> namedLists = mapper.listListByWord("c");
+        assertNotNull(namedLists);
+        assertEquals(1, namedLists.size());
     }
 
     @Test
     public void testListAllLists() {
-        java.util.List<List> lists = mapper.listLists();
-        assertNotNull(lists);
-        assertTrue(lists.size() > 0);
+        List<NamedList> namedLists = mapper.listLists();
+        assertNotNull(namedLists);
+        assertTrue(namedLists.size() > 0);
     }
 
     @Test
     public void testListWordByList() {
-        java.util.List<Word> list = mapper.listWordByList(1L);
+        List<Word> list = mapper.listWordByList(1L);
         assertNotNull(list);
         assertFalse(list.isEmpty());
     }

@@ -107,16 +107,16 @@ CREATE TABLE userword (
    FOREIGN KEY (userid) REFERENCES appuser (id)
 );
 
-CREATE TABLE book (
-   id       SERIAL CONSTRAINT book_pk PRIMARY KEY,
+CREATE TABLE list (
+   id       SERIAL CONSTRAINT list_pk PRIMARY KEY,
    title    varchar(200) UNIQUE,
    author   varchar(100),
    isbn     varchar(20)
 );
 
-CREATE TABLE bookword (
-   id       SERIAL CONSTRAINT bookword_pk PRIMARY KEY,
-   bookid   integer,
+CREATE TABLE listword (
+   id       SERIAL CONSTRAINT listword_pk PRIMARY KEY,
+   listid   integer,
    word     varchar(50),
-   FOREIGN KEY (bookid) REFERENCES book (id)
+   FOREIGN KEY (listid) REFERENCES list (id)
 );

@@ -1,8 +1,8 @@
 package me.wordmaster.vo;
 
-public class BookWordVO {
+public class ListWordVO {
     private String word;
-    private String book;
+    private String list;
 
     public String getWord() {
         return word;
@@ -12,19 +12,19 @@ public class BookWordVO {
         this.word = word;
     }
 
-    public String getBook() {
-        return book;
+    public String getList() {
+        return list;
     }
 
-    public void setBook(String book) {
-        this.book = book;
+    public void setList(String list) {
+        this.list = list;
     }
 
     @Override
     public String toString() {
-        return "BookWordVO{" +
+        return "ListWordVO{" +
                 "word='" + word + '\'' +
-                ", book='" + book + '\'' +
+                ", list='" + list + '\'' +
                 '}';
     }
 }

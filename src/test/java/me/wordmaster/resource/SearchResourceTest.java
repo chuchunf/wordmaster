@@ -36,7 +36,7 @@ public class SearchResourceTest {
 
     @Before
     public void setup() {
-        when(service.searchByBook(isA(String.class))).thenReturn(new ArrayList<>());
+        when(service.searchByList(isA(String.class))).thenReturn(new ArrayList<>());
     }
 
     @Test

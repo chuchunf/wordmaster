@@ -23,6 +23,6 @@ public class SearchResource {
     @AllowedRoles
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWord(@PathParam("title") String title) {
-        return Response.ok(service.searchByBook(title)).build();
+        return Response.ok(service.searchByList(title)).build();
     }
 }

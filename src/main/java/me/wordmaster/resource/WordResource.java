@@ -4,7 +4,7 @@ import me.wordmaster.model.UserWord;
 import me.wordmaster.security.AllowedRoles;
 import me.wordmaster.service.WordService;
 import me.wordmaster.vo.AnswerVO;
-import me.wordmaster.vo.BookWordVO;
+import me.wordmaster.vo.ListWordVO;
 import me.wordmaster.vo.QuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,12 +61,12 @@ public class WordResource {
     }
 
     @POST
-    @Path("bookword")
+    @Path("listword")
     @AllowedRoles
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBookWord(List<BookWordVO> lists) {
-        service.updateBookWord(lists);
+    public Response updateListWord(List<ListWordVO> lists) {
+        service.updateListWord(lists);
         return Response.ok().build();
     }
 

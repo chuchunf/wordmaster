@@ -5,7 +5,7 @@ import me.wordmaster.model.*;
 import me.wordmaster.util.DateUtils;
 import me.wordmaster.util.Mastery;
 import me.wordmaster.vo.AnswerVO;
-import me.wordmaster.vo.BookWordVO;
+import me.wordmaster.vo.ListWordVO;
 import me.wordmaster.vo.QuestionVO;
 import me.wordmaster.vo.WordVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class WordService {
     @Autowired
     private UserWordMapper userwordmapper;
     @Autowired
-    private BookMapper bookmapper;
+    private ListMapper listmapper;
 
     public List<Word> getNext10Words(String username) {
         return mapper.next10Words(username);
@@ -58,7 +58,7 @@ public class WordService {
         List<WordEntry> entries = mapper.listWordEntries(word);
         List<WordSense> senses = mapper.listWordSenses(word);
         entries.forEach(entry -> {
-            List<WordSense> filtered = senses.stream()
+            List filtered = senses.stream()
                     .filter(sense -> sense.getSeqno().equals(entry.getSeqno()))
                     .collect(Collectors.toList());
             entry.setSenses(filtered);
@@ -123,36 +123,36 @@ public class WordService {
     }
 
     @Transactional
-    public void updateBookWord(List<BookWordVO> words) {
+    public void updateListWord(List<ListWordVO> words) {
         if (words == null || words.isEmpty()) return;
 
         String word = words.get(0).getWord();
-        List<Book> removeList = bookmapper.listBookByWord(word);
-        List<Book> books = bookmapper.listBooks();
-        if (removeList == null) removeList = new ArrayList<>();
-        if (books == null) books = new ArrayList<>();
-        List<String> nowList = removeList.stream().map(Book::getTitle).collect(Collectors.toList());
-        List<String> newBooks = books.stream().map(Book::getTitle).collect(Collectors.toList());
+        List<NamedList> removeNamedList = listmapper.listListByWord(word);
+        List<NamedList> namedLists = listmapper.listLists();
+        if (removeNamedList == null) removeNamedList = new ArrayList<>();
+        if (namedLists == null) namedLists = new ArrayList<>();
+        List nowList = removeNamedList.stream().map(NamedList::getTitle).collect(Collectors.toList());
+        List newLists = namedLists.stream().map(NamedList::getTitle).collect(Collectors.toList());
 
-        for (BookWordVO vo : words) {
-            if (nowList.contains(vo.getBook())) {
-                removeList = removeList.stream()
-                        .filter(book -> book.getTitle().equals(vo.getBook()))
+        for (ListWordVO vo : words) {
+            if (nowList.contains(vo.getList())) {
+                removeNamedList = removeNamedList.stream()
+                        .filter(list -> list.getTitle().equals(vo.getList()))
                         .collect(Collectors.toList());
             }
 
-            if (!newBooks.contains(vo.getBook())) {
-                Book book = new Book();
-                book.setTitle(vo.getBook());
-                bookmapper.createBook(book);
+            if (!newLists.contains(vo.getList())) {
+                NamedList namedList = new NamedList();
+                namedList.setTitle(vo.getList());
+                listmapper.createList(namedList);
             }
 
-            Book book = bookmapper.getBookByTitle(vo.getBook());
-            bookmapper.addBookWord(book.getId(), vo.getWord());
+            NamedList namedList = listmapper.getListByTitle(vo.getList());
+            listmapper.addListWord(namedList.getId(), vo.getWord());
         }
 
-        for (Book book : removeList) {
-            bookmapper.deleteBookWord(book.getId(), word);
+        for (NamedList namedList : removeNamedList) {
+            listmapper.deleteListWord(namedList.getId(), word);
         }
     }
 
@@ -194,9 +194,9 @@ public class WordService {
         vo.setWord(word);
         vo.setQuestion(mapper.getFirstDefinition(word));
 
-        List<String> alikes = othermapper.getLookAlike(word);
+        List alikes = othermapper.getLookAlike(word);
         Collections.shuffle(alikes);
-        List<String> choises = new ArrayList<>(alikes.subList(0, 3));
+        List choises = new ArrayList<>(alikes.subList(0, 3));
         choises.add(word);
         Collections.shuffle(choises);
         vo.setChoises(choises);
@@ -212,9 +212,9 @@ public class WordService {
         vo.setWord(word);
         vo.setQuestion(word);
 
-        List<String> defintions = mapper.getRandomDefinition(word);
+        List defintions = mapper.getRandomDefinition(word);
         Collections.shuffle(defintions);
-        List<String> choises = new ArrayList<>(defintions.subList(0, 3));
+        List choises = new ArrayList<>(defintions.subList(0, 3));
         String definition = mapper.getFirstDefinition(word);
         choises.add(definition);
         Collections.shuffle(choises);
@@ -235,9 +235,9 @@ public class WordService {
         question = question.replace(word, " (___________) ");
         vo.setQuestion(question);
 
-        List<String> alikes = othermapper.getLookAlike(word);
+        List alikes = othermapper.getLookAlike(word);
         Collections.shuffle(alikes);
-        List<String> choises = new ArrayList<>(alikes.subList(0, 3));
+        List choises = new ArrayList<>(alikes.subList(0, 3));
         choises.add(word);
         Collections.shuffle(choises);
         vo.setChoises(choises);
