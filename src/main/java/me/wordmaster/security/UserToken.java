@@ -8,7 +8,11 @@ public class UserToken {
 
     public UserToken(String username, Date issuedAt) {
         this.username = username;
-        this.issuedAt = issuedAt;
+        if (issuedAt != null) {
+            this.issuedAt = new Date(issuedAt.getTime());
+        } else {
+            this.issuedAt = null;
+        }
     }
 
     public String getUsername() {
@@ -16,7 +20,11 @@ public class UserToken {
     }
 
     public Date getIssuedAt() {
-        return issuedAt;
+        if (issuedAt != null) {
+            return new Date(issuedAt.getTime());
+        } else {
+            return null;
+        }
     }
 
     @Override

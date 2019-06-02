@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class WordService {
     private static final Logger LOGGER = Logger.getLogger(WordService.class.getName());
+    private static final Random RANDOM = new Random();
 
     @Autowired
     private WordMapper mapper;
@@ -183,8 +184,9 @@ public class WordService {
     }
 
     private QuestionVO createRandomQuestion(String word) {
-        if (new Random().nextBoolean()) return createClozeQuestion(word);
-        else if (new Random().nextBoolean()) return createChooseWordQuestion(word);
+        int value = RANDOM.nextInt(10);
+        if (value <= 5) return createClozeQuestion(word);
+        else if (value <= 7) return createChooseWordQuestion(word);
         else return createChooseSentenseQuestion(word);
     }
 
@@ -194,9 +196,9 @@ public class WordService {
         vo.setWord(word);
         vo.setQuestion(mapper.getFirstDefinition(word));
 
-        List alikes = othermapper.getLookAlike(word);
+        List<String> alikes = othermapper.getLookAlike(word);
         Collections.shuffle(alikes);
-        List choises = new ArrayList<>(alikes.subList(0, 3));
+        List<String> choises = new ArrayList<>(alikes.subList(0, 3));
         choises.add(word);
         Collections.shuffle(choises);
         vo.setChoises(choises);
@@ -212,9 +214,9 @@ public class WordService {
         vo.setWord(word);
         vo.setQuestion(word);
 
-        List defintions = mapper.getRandomDefinition(word);
+        List<String> defintions = mapper.getRandomDefinition(word);
         Collections.shuffle(defintions);
-        List choises = new ArrayList<>(defintions.subList(0, 3));
+        List<String> choises = new ArrayList<>(defintions.subList(0, 3));
         String definition = mapper.getFirstDefinition(word);
         choises.add(definition);
         Collections.shuffle(choises);
@@ -235,9 +237,9 @@ public class WordService {
         question = question.replace(word, " (___________) ");
         vo.setQuestion(question);
 
-        List alikes = othermapper.getLookAlike(word);
+        List<String> alikes = othermapper.getLookAlike(word);
         Collections.shuffle(alikes);
-        List choises = new ArrayList<>(alikes.subList(0, 3));
+        List<String> choises = new ArrayList<>(alikes.subList(0, 3));
         choises.add(word);
         Collections.shuffle(choises);
         vo.setChoises(choises);

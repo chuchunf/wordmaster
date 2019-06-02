@@ -64,19 +64,31 @@ public class AppUser {
     }
 
     public Timestamp getCreated() {
-        return created;
+        if (created != null) {
+            return new Timestamp(created.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setCreated(Timestamp created) {
-        this.created = created;
+        if (created != null) {
+            this.created = new Timestamp(created.getTime());
+        }
     }
 
     public Timestamp getLastLogin() {
-        return lastLogin;
+        if (lastLogin != null) {
+            return new Timestamp(lastLogin.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setLastLogin(Timestamp lastLogin) {
-        this.lastLogin = lastLogin;
+        if (lastLogin != null) {
+            this.lastLogin = lastLogin;
+        }
     }
 
     @Override
