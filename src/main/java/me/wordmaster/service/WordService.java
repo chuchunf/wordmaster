@@ -59,7 +59,7 @@ public class WordService {
         List<WordEntry> entries = mapper.listWordEntries(word);
         List<WordSense> senses = mapper.listWordSenses(word);
         entries.forEach(entry -> {
-            List filtered = senses.stream()
+            List<WordSense> filtered = senses.stream()
                     .filter(sense -> sense.getSeqno().equals(entry.getSeqno()))
                     .collect(Collectors.toList());
             entry.setSenses(filtered);

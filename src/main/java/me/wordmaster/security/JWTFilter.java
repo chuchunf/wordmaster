@@ -13,7 +13,6 @@ import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
@@ -35,18 +34,18 @@ public class JWTFilter implements ContainerRequestFilter {
     private UserMapper userdao;
 
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) {
         Method method = resourceInfo.getResourceMethod();
-        if ( !method.isAnnotationPresent(AllowedRoles.class) ) return;
+        if (!method.isAnnotationPresent(AllowedRoles.class)) return;
 
         String authheader = requestContext.getHeaders().getFirst(AUTH_HEADER);
-        if ( authheader==null ) {
+        if (authheader == null) {
             fail(requestContext);
             return;
         }
 
         Optional<UserToken> usertoken = jwtservice.getUserToken(authheader);
-        if ( !usertoken.isPresent() ) {
+        if (!usertoken.isPresent()) {
             fail(requestContext);
             return;
         } else {
@@ -54,7 +53,7 @@ public class JWTFilter implements ContainerRequestFilter {
         }
 
         AllowedRoles roles = method.getAnnotation(AllowedRoles.class);
-        if ( roles.role() == AllowedRoles.Role.ADMIN ) {
+        if (roles.role() == AllowedRoles.Role.ADMIN) {
             checkAdmin(usertoken.get(), requestContext);
         }
     }
